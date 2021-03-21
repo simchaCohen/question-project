@@ -15,13 +15,15 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { actions } from '../../../store/actions';
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
+
 import './sign-up.css'
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link className="a-turciz" href="#">
+            <Link className="a-turciz" to="#">
                 Simcha Cohen
       </Link>{' '}
             {new Date().getFullYear()}
@@ -58,7 +60,7 @@ function mapStateToProps(state) {
         token: state.public_reducer.token
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(function SignUp(props) {
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function SignUp(props) {
 
     const { addUser, token, history } = props;
     const classes = useStyles();
@@ -89,7 +91,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function SignUp(prop
                             .required('Required'),
                         password: Yup.string()
                             .matches(
-                                /[#,&,*,^]/,
+                                /[#,&,*,^,%,$,@,!]/,
                                 'Need one special character'
                             )
                             .min(8, 'Must be 8 characters or more')
@@ -165,4 +167,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(function SignUp(prop
             </Box>
         </Container>
     );
-})
+}))

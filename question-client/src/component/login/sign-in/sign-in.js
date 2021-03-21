@@ -76,9 +76,9 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
 
   useEffect(() => {
     // console.log("useeffect");
-    if (token!=="")
+    if (token !== "")
       history.push('/all-questions')
-  }, [token,history]);
+  }, [token, history]);
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -100,7 +100,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                 .required('Required'),
               password: Yup.string()
                 .matches(
-                  /[#,&,*,^]/,
+                  /[#,&,*,^,%,$,@,!]/,
                   'Need one special character'
                 )
                 .min(8, 'Must be 8 characters or more')
@@ -135,7 +135,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                 id="password"
                 autoComplete="current-password"
               />
-              
+
               <Button
                 type="submit"
                 fullWidth

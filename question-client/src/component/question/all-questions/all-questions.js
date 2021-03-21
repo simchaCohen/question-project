@@ -63,6 +63,9 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
   const logSelected = () => {
     history.push('/log-question')  
   }
+  const add = () => {
+    history.push('/add-question')
+}
   return (
     <React.Fragment>
       <main>
@@ -77,7 +80,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" onClick={()=>{add()}}>
                     Add New Question
                   </Button>
                 </Grid>
