@@ -65,24 +65,28 @@ function mapStateToProps(state) {
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
     function EditQuestion(props) {
+
         const classes = useStyles();
         const { history, editLogQuestion, getCategoryQuestion, categoryQuestion, logQuestion } = props
         const { index } = useParams();
         const [editQuestion, setEditQuestion] = useState(logQuestion[index]);
         const [update, setUpdate] = useState(false);
         const [ind, setInd] = useState(-1);
-        // const [category] = useState(logQuestion[index].category);
+        
+        //get all the category from server
         useEffect(() => {
             getCategoryQuestion()
         }, [getCategoryQuestion]);
 
+
+        //send to server the edit question after submit
         useEffect(() => {
             if (update === true) {
                 editLogQuestion(editQuestion);
             }
         }, [editQuestion, editLogQuestion, update]);
 
-
+        //set the first value of ind
         useEffect(() => {
             if (ind === -1) {
                 if (categoryQuestion.length !== 0) {
@@ -97,17 +101,18 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
             }
         }, [categoryQuestion, editQuestion, ind])
 
+
+        //on change option
         const handleChangeOption = (e) => {
             let val = e.target.value
             if (val !== 'undefined' && val !== '' && val !== "") {
                 setInd(val)
                 val = categoryQuestion[val]
-                // if (val.id !== category.id) {
-                //     setCategory(val);
-                // }
             }
         };
 
+
+        //navugate to the previous page
         const returnLogquestion = () => {
             history.push('/log-question')
         }
@@ -135,15 +140,11 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
                             })}
                             onSubmit={
                                 (values, { setSubmitting }) => {
-                                    // setEditQuestion(values)
                                     setEditQuestion({
                                         ...values,
                                         category: categoryQuestion[ind], category_id: categoryQuestion[ind].id
                                     })
                                     setUpdate(true)
-                                    // val.category = categoryQuestion[ind]
-                                    // val.category_id = categoryQuestion[ind].id
-                                    // editLogQuestion(editQuestion);
                                     setSubmitting(false);
                                     returnLogquestion()
                                 }}>
