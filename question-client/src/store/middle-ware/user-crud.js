@@ -7,7 +7,7 @@ export const addUser = ({ dispatch, getState }) => next => action => {
         let user = action.payload;
         axios.post(urlData, user)
             .then(function (response) {
-                dispatch(actions.setToken(response.data.token));
+                // dispatch(actions.setToken(response.data.token));
                 dispatch(actions.addUserServer(response.data.user));
             })
             .catch(function (error) {

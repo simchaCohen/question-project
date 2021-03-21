@@ -99,10 +99,6 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                 .email('Must be valid email')
                 .required('Required'),
               password: Yup.string()
-                .matches(
-                  /[#,&,*,^,%,$,@,!]/,
-                  'Need one special character'
-                )
                 .min(8, 'Must be 8 characters or more')
                 .required('Required')
             })}

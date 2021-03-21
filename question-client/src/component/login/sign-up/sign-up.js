@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -16,6 +15,10 @@ import { connect } from 'react-redux';
 import { actions } from '../../../store/actions';
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 import './sign-up.css'
 
@@ -55,21 +58,25 @@ const useStyles = makeStyles((theme) => ({
 const mapDispatchToProps = (dispatch) => ({
     addUser: (userToAdd) => dispatch(actions.addUser(userToAdd))
 })
-function mapStateToProps(state) {
-    return {
-        token: state.public_reducer.token
-    };
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function SignUp(props) {
+// function mapStateToProps(state) {
+//     return {
+//         token: state.public_reducer.token
+//     };
+// }
+export default withRouter(connect(null, mapDispatchToProps)(function SignUp(props) {
 
-    const { addUser, token, history } = props;
+    const { addUser, history } = props;
     const classes = useStyles();
+    const [openDialog, setOpenDialog] = useState(false);
 
-    useEffect(() => {
-        if (token!=="")
-            history.push('/all-questions')
-    }, [token,history]);
-
+    // useEffect(() => {
+    //     if (token!=="")
+    //         history.push('/')
+    // }, [token,history]);
+    const handleCloseOk = () => {
+        setOpenDialog(false)
+        history.push('/')
+    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -81,7 +88,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                     Sign up
         </Typography>
                 <Formik
-                    initialValues={{ name: '', email: '', password: '' }}
+                    initialValues={{ name: '', email: ''}}
                     validationSchema={Yup.object({
                         name: Yup.string()
                             .max(20, 'Must be 20 characters or less')
@@ -89,16 +96,17 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                         email: Yup.string()
                             .email('Must be valid email')
                             .required('Required'),
-                        password: Yup.string()
-                            .matches(
-                                /[#,&,*,^,%,$,@,!]/,
-                                'Need one special character'
-                            )
-                            .min(8, 'Must be 8 characters or more')
-                            .required('Required')
+                        // password: Yup.string()
+                        //     .matches(
+                        //         /[#,&,*,^,%,$,@,!]/,
+                        //         'Need one special character'
+                        //     )
+                        //     .min(8, 'Must be 8 characters or more')
+                        //     .required('Required')
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                         addUser(values);
+                        setOpenDialog(true);
                         setSubmitting(false);
                     }}  >
                     <Form>
@@ -129,7 +137,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                                     autoComplete="email"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                                 <Field
                                     component={TextField}
                                     variant="outlined"
@@ -141,7 +149,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
                                     id="password"
                                     autoComplete="current-password"
                                 />
-                            </Grid>
+                            </Grid> */}
                            
                         </Grid>
                         <Button
@@ -165,6 +173,21 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(function 
             <Box mt={5}>
                 <Copyright />
             </Box>
+            <Dialog
+        open={openDialog}
+        // onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Now You Get  Password To Your Email</DialogTitle>
+        
+        <DialogActions>
+          
+          <Button onClick={handleCloseOk} color="primary" autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
         </Container>
     );
 }))
