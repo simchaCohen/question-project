@@ -70,7 +70,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
         const { index } = useParams();
         const [editQuestion, setEditQuestion] = useState(logQuestion[index]);
         const [update, setUpdate] = useState(false);
-
+        const [ind, setInd] = useState(-1);
         // const [category] = useState(logQuestion[index].category);
         useEffect(() => {
             getCategoryQuestion()
@@ -80,9 +80,22 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
             if (update === true) {
                 editLogQuestion(editQuestion);
             }
-        }, [editQuestion, editLogQuestion,update]);
+        }, [editQuestion, editLogQuestion, update]);
 
-        const [ind, setInd] = useState(1);
+
+        useEffect(() => {
+            if (ind === -1) {
+                if (categoryQuestion.length !== 0) {
+                    const res = categoryQuestion.findIndex(c => editQuestion.category_id === c.id)
+                    if (res !== -1) {
+                        setInd(res)
+                    }
+                    else {
+                        setInd(0)
+                    }
+                }
+            }
+        }, [categoryQuestion, editQuestion, ind])
 
         const handleChangeOption = (e) => {
             let val = e.target.value
