@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import {
     Switch,
     Route,
+    Redirect,
 } from "react-router-dom";
 import './nav-bar.css'
 import AllQuestions from '../question/all-questions/all-questions';
@@ -70,22 +71,40 @@ export default connect(mapStateToProps, mapDispatchToProps)(function NavBar(prop
                     <SignUp />
                 </Route>
                 <Route path="/all-questions">
-                    <AllQuestions></AllQuestions>
+                    {token?
+                    <AllQuestions></AllQuestions>:
+                    <Redirect to="/dashboard" />
+                }
                 </Route>
                 <Route path="/view-question/:index">
-                    <ViewQuestion></ViewQuestion>
+                {token?
+                    <ViewQuestion></ViewQuestion>:
+                    <Redirect to="/dashboard" />
+                }
+                    
                 </Route>
                 <Route path="/log-question">
-                    <LogQuestion></LogQuestion>
+                {token?
+                  <LogQuestion></LogQuestion>   :
+                    <Redirect to="/dashboard" />
+                }
+                   
                 </Route>
                 <Route path="/add-question">
-                    <AddQuestion></AddQuestion>
+                {token?
+                   <AddQuestion></AddQuestion>  :
+                    <Redirect to="/dashboard" />
+                }
+                   
                 </Route>
                 <Route path="/edit-question/:index">
-                    <EditQuestion></EditQuestion>
+                {token?
+                    <EditQuestion></EditQuestion> :
+                    <Redirect to="/dashboard" />
+                }
+                  
                 </Route>
                 <Route path="/log-out">
-                    {/* {delToken()} */}
                     < SignIn ></SignIn>
                 </Route>
                 <Route path="/">
